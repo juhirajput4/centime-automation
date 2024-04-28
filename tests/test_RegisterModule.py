@@ -1,44 +1,34 @@
-
 from selenium.webdriver.common.by import By
 import time
 import pytest
 import unittest
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+from configurations.RegisterPage import validEmailIdToRegister, validPasswordToRegister, validRegisteredUserName
+from pages.RegisterPage.Register_Page import Register_Page
 
 
 @pytest.mark.usefixtures("setupDriver")
-class loginTest(unittest.TestCase):
-    validEmailId = "juhi.rajput@cloudanalogy.com"
-    validPss = "juhirajput57"
-
-    # invalidEmailId = "rajput@cloudanalogy.com"
-    # invalidPss = "juhirajput57"
+class registerTest(unittest.TestCase):
 
     @pytest.fixture(autouse=True)
     def setUpMethod(self, setupDriver):
-        self.lp = Login_Page(self.driver)
+        self.registerPage = Register_Page(self.driver)
 
-    # def test_registerWithValid(self):
-    #     self.lp.enterRegisterEmail(self.validEmailId)
-    #     time.sleep(5)
-    #     self.lp.enterRegisterPassword(self.validPss)
-    #     actual_Text = self.lp.verify_assertText()
-    #     self.assertEqual(actual_Text, "Strong")
-    #     self.lp.clickOnRegisterButton()
-    #     time.sleep(5)
-    #     self.lp.clickOnLogoutButton()
-
-    def test_registerWithInValid(self):
-        self.lp.enterRegisterEmail(self.validEmailId)
+    def test_register_with_valid(self):
+        self.registerPage.enterEmailToRegister(validEmailIdToRegister)
         time.sleep(5)
-        self.lp.enterRegisterPassword(self.validPss)
-        # actual_Text = self.lp.verify_assertText()
-        # self.assertEqual(actual_Text, "Strong")
-        self.lp.clickOnRegisterButton()
+        self.registerPage.enterPasswordToRegister(validPasswordToRegister)
+        self.registerPage.clickOnRegisterButton()
+        WebDriverWait(self.registerPage.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, "//div[@class='woocommerce-MyAccount-content']/p"))
+        )
 
-        actual_errorText = self.lp.verifyErrorMessage()
-        print(actual_errorText)
-        self.assertEqual(actual_errorText, "Error:")
+        element = self.registerPage.driver.find_element(By.XPATH, "//div[@class='woocommerce-MyAccount-content']/p")
 
-        time.sleep(5)
+        assert validRegisteredUserName in element.text
+
+
 
 

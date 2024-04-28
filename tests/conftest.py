@@ -1,6 +1,9 @@
 import pytest
 from selenium import webdriver
 
+from pages.LoginPage.Login_Page import Login_Page
+from configurations.LoginPage import emailId, validPassword
+
 
 @pytest.fixture()
 def setupDriver(request):
