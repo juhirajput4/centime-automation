@@ -1,8 +1,6 @@
 from pages.LoginPage.Login_Page import Login_Page
 from configurations.LoginPage import emailId, validPassword, userName,invalidPassword
-from pages.AddProductPage.Add_Product_Page import AddProduct_Page
 
-import time
 import pytest
 import unittest
 from selenium.webdriver.support.ui import WebDriverWait
