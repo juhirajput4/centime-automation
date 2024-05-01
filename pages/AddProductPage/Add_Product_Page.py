@@ -1,3 +1,5 @@
+import time
+
 from locators.addProducts_locators import AddProductsLocators
 from base.selenium_driver import Selenium_Driver
 from selenium import webdriver
@@ -14,17 +16,35 @@ class AddProduct_Page(Selenium_Driver):
         self.clickElement(AddProductsLocators.shop_field)
 
     def selectProduct(self, product):
-        name = By.XPATH(".//a/h3")
-        addToBasketButton = By.XPATH(".//a[@rel='nofollow']")
-        products = self.getElementList(AddProductsLocators.products_list)
+        print("Hello selectProduct")
+        products = self.getElementList(AddProductsLocators.addToBasketButtonList)
+        productsName = self.getElementList(AddProductsLocators.name)
         print(len(products))
-        for prod in products:
-            if prod.is_displayed():
-                productName = prod.find_element(name).text
+        print(len(productsName))
+        print("length of products")
 
-                print("Name of the product is " + productName)
-                if productName == product:
-                    print("--------------->ADIDAS-- " + prod.text)
-                    prod.find_element(addToBasketButton).click()
-        viewBasketElement = self.driver.find_element(By.XPATH,"//a[@title='View Basket']")
-        assert viewBasketElement.is_displayed()
+        for i in range(0, len(productsName)):
+            if product in productsName[i].text:
+                print(productsName[i].text)
+                time.sleep(5)
+                products[i].click()
+                time.sleep(5)
+
+    def gotoActiveBasketList(self):
+        self.clickElement(AddProductsLocators.basketButton)
+
+    def checkItemInCartItemList(self, product):
+        cartItems = self.getElementList(AddProductsLocators.cartItemList)
+        time.sleep(5)
+        for item in cartItems:
+            if product in item.text:
+                return True
+        return False
+
+    def removeItemFromCart(self,product):
+        cartItems = self.getElementList(AddProductsLocators.cartItemList)
+        removeButtons = self.getElementList(AddProductsLocators.cartItemRemoveButtons)
+        time.sleep(5)
+        for i in range(0, len(cartItems)):
+            if product in cartItems[i].text:
+                removeButtons[i].click()

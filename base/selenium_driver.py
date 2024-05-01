@@ -22,6 +22,7 @@ class Selenium_Driver():
         self.getElement(locator).click()
     def sendKeys(self, data, locator):
         element = self.getElement(locator)
+        element.clear()
         element.send_keys(data)
         print("Sent data on element with locator: " + locator[1])
 

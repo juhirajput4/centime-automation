@@ -5,7 +5,7 @@ import unittest
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from configurations.RegisterPage import validEmailIdToRegister, validPasswordToRegister, validRegisteredUserName
+from configurations.RegisterPage import validEmailIdToRegister, validPasswordToRegister, validRegisteredUserName, invalidEmailIdToRegister, invalidPasswordToRegister
 from pages.RegisterPage.Register_Page import Register_Page
 
 
